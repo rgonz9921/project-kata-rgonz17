@@ -10,11 +10,11 @@ import org.springframework.stereotype.Service;
 import java.util.logging.Logger;
 
 @Service
-public class CustomUserDetailsService implements UserDetailsService {
-    private static final Logger logger = Logger.getLogger(CustomUserDetailsService.class.getName());
+public class CustomUserDetailsServiceImpl implements UserDetailsService {
+    private static final Logger logger = Logger.getLogger(CustomUserDetailsServiceImpl.class.getName());
     private final UserRepository userRepository;
 
-    public CustomUserDetailsService(UserRepository userRepository) {
+    public CustomUserDetailsServiceImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 

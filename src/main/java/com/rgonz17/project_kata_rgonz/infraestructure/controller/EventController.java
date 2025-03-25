@@ -2,13 +2,10 @@ package com.rgonz17.project_kata_rgonz.infraestructure.controller;
 
 import com.rgonz17.project_kata_rgonz.domain.dto.PagedResponse;
 import com.rgonz17.project_kata_rgonz.domain.model.Event;
-import com.rgonz17.project_kata_rgonz.domain.service.AuthServiceImpl;
-import com.rgonz17.project_kata_rgonz.domain.service.CustomUserDetailsService;
 import com.rgonz17.project_kata_rgonz.domain.service.IEventService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -29,11 +26,6 @@ public class EventController {
     @PutMapping("/{id}")
     public Event udpateEvent(@PathVariable String id, @RequestBody Event event){
         return eventService.updateEvent(id, event);
-    }
-
-    @DeleteMapping("/{id}")
-    public HttpStatus deleteEvent(@PathVariable String id){
-        return eventService.deleteEvent(id);
     }
 
     @GetMapping

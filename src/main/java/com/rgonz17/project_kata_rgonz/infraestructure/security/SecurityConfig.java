@@ -29,7 +29,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/v1/auth/login").permitAll()
+                        .requestMatchers("/v1/auth/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/v1/events").hasAnyRole("ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/v1/events").hasAnyRole("ADMIN")
                         .requestMatchers(HttpMethod.POST, "/v1/reservations").hasAnyRole("USER")
