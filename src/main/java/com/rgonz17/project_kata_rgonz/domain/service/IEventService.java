@@ -11,13 +11,9 @@ public interface IEventService {
 
     Optional<Event> getEventById(String id);
 
-    Optional<Event> getEventByName(String id);
-
     Event createEvent(Event event);
 
     Event updateEvent(String id, Event event);
-
-    HttpStatus deleteEvent(String id);
 
     PagedResponse<Event> searchEventByFilters(String artist, String genre, String location, int page, int limit);
 }
