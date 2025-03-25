@@ -32,6 +32,7 @@ public class SecurityConfig {
                         .requestMatchers("/v1/auth/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "/v1/events").hasAnyRole("ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/v1/events").hasAnyRole("ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/v1/reservations").hasAnyRole("USER")
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

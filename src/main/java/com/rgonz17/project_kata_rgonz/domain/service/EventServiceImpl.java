@@ -38,14 +38,8 @@ public class EventServiceImpl implements IEventService {
 
     @Override
     public Optional<Event> getEventById(String id) {
-        return Optional.empty();
+        return eventRepository.findById(id);
     }
-
-    @Override
-    public Optional<Event> getEventByName(String id) {
-        return Optional.empty();
-    }
-
     @Override
     public Event createEvent(Event event) {
         return eventRepository.save(event);
@@ -53,18 +47,38 @@ public class EventServiceImpl implements IEventService {
 
 
     @Override
-    public Event updateEvent(String id, Event event) {
-        return null;
-    }
-
-    @Override
-    public HttpStatus deleteEvent(String id) {
-        return HttpStatus.ACCEPTED;
+    public Event updateEvent(String id, Event updateEvent) {
+        return eventRepository.findById(id)
+                .map(event -> {
+                    event.setName(updateEvent.getName());
+                    event.setTickets(updateEvent.getTickets());
+                    event.setDateOfEvent(updateEvent.getDateOfEvent());
+                    event.setArtist(updateEvent.getArtist());
+                    event.setGenres(updateEvent.getGenres());
+                    event.setReleased(updateEvent.getReleased());
+                    event.setLocation(updateEvent.getLocation());
+                    return eventRepository.save(event);
+                }).orElseGet(() -> {
+                    updateEvent.set_id(id);
+                    return eventRepository.save(updateEvent);
+                });
     }
 
     @Override
     public PagedResponse<Event> searchEventByFilters(String artist, String genre,
                                                      String location, int page, int limit) {
-        return null;
+        int finalLimit = Math.min(limit, MAX_LIMIT);
+        String genreRegex = (genre != null) ? ".*" + genre + ".*" : ".*";
+        String locationRegex = (location != null) ? ".*" + location + ".*" : ".*";
+        String artistRegex = (artist != null) ? ".*" + artist + ".*" : ".*";
+        Page<Event> eventPage = eventRepository.findByGenreLocationArtist(
+                genreRegex, locationRegex, artistRegex, PageRequest.of(page, finalLimit));
+        return new PagedResponse<>(
+                "event",
+                eventPage.getContent(),
+                page,
+                finalLimit,
+                eventPage.getTotalElements()
+        );
     }
 }
