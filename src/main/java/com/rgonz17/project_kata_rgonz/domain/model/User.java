@@ -3,16 +3,21 @@ package com.rgonz17.project_kata_rgonz.domain.model;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.List;
+
 @Document(collection = "users")
 public class User {
 
     public User() {
     }
-    public User(String _id, String name, String email, String password) {
+
+    public User(String _id, String name, String email, String password, TypeRoleUser role, List<String> reservations) {
         this._id = _id;
         this.name = name;
         this.email = email;
         this.password = password;
+        this.role = role;
+        this.reservations = reservations;
     }
 
     @Override
@@ -31,6 +36,10 @@ public class User {
 
     private String email;
     private String password;
+
+    private TypeRoleUser role;
+
+    private List<String> reservations;
 
     public String get_id() {
         return _id;
@@ -64,4 +73,19 @@ public class User {
         this.password = password;
     }
 
+    public TypeRoleUser getRole() {
+        return role;
+    }
+
+    public void setRole(TypeRoleUser role) {
+        this.role = role;
+    }
+
+    public List<String> getReservations() {
+        return reservations;
+    }
+
+    public void setReservations(List<String> reservations) {
+        this.reservations = reservations;
+    }
 }
