@@ -8,9 +8,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @SpringBootApplication
 public class ProjectKataRgonzApplication {
 	public static void main(String[] args) {
-		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-		String hashedPassword = passwordEncoder.encode("1234568");
-		System.out.println("Contraseña encriptada: " + hashedPassword);
 		SpringApplication.run(ProjectKataRgonzApplication.class, args);
 	}
 

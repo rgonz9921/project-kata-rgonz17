@@ -6,6 +6,7 @@ import com.rgonz17.project_kata_rgonz.infraestructure.persistence.ReservationRep
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -15,12 +16,14 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class ReservationServiceImpl implements IReservationService {
     private static final Logger logger = LoggerFactory.getLogger(ReservationServiceImpl.class);
 
     @Autowired
+    @Lazy
     private IUserService userService;
     @Autowired
     private IEventService eventService;
@@ -57,6 +60,11 @@ public class ReservationServiceImpl implements IReservationService {
                 user.getReservations()
         );
         return ResponseEntity.ok(responseDto);
+    }
+
+    @Override
+    public List<Reservation> reservationByUserId(String id) {
+        return reservationRepository.findByUserId(id);
     }
 
     private TypeTickets validateTicketAvailability(Event event, String ticketType, int requestedQuantity) {

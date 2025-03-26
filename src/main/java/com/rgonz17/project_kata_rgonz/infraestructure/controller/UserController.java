@@ -1,6 +1,7 @@
 package com.rgonz17.project_kata_rgonz.infraestructure.controller;
 
 import com.rgonz17.project_kata_rgonz.domain.dto.PagedResponse;
+import com.rgonz17.project_kata_rgonz.domain.dto.UserDto;
 import com.rgonz17.project_kata_rgonz.domain.model.User;
 import com.rgonz17.project_kata_rgonz.domain.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/v1/users")
 public class UserController {
@@ -24,6 +26,16 @@ public class UserController {
     @GetMapping("/{id}")
     public Optional<User> getUserById(@PathVariable String id) {
         return userService.getUserById(id);
+    }
+
+    @GetMapping("/searchByEmail")
+    public Optional<User> getUserByEmail(@RequestParam(required = true) String email) {
+        return userService.getUserByEmail(email);
+    }
+
+    @GetMapping("/reservation")
+    public  Optional<UserDto> getReservationByUserEmail(@RequestParam(required = true) String email){
+        return userService.getUserWithReservations(email);
     }
 
     @PostMapping

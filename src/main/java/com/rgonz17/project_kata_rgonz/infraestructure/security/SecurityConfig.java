@@ -15,7 +15,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-
 @Configuration
 public class SecurityConfig {
     private final JwtRequestFilter jwtRequestFilter;
@@ -29,10 +28,18 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/v1/auth/**").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/v1/events").hasAnyRole("ADMIN")
-                        .requestMatchers(HttpMethod.PUT, "/v1/events").hasAnyRole("ADMIN")
-                        .requestMatchers(HttpMethod.POST, "/v1/reservations").hasAnyRole("USER")
+                        // Rutas públicas
+                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                        .requestMatchers("/v1/auth/**", "/v1/events/**").permitAll()
+                        .requestMatchers("/v1/events/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/v1/users").permitAll()
+                        // Rutas solo para ADMIN
+                        .requestMatchers(HttpMethod.POST, "/v1/events").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/v1/events").hasRole("ADMIN")
+                        // Rutas solo para USER
+                        .requestMatchers(HttpMethod.POST,"/v1/reservations").hasRole("USER")
+                        .requestMatchers(HttpMethod.GET, "/v1/user/searchByEmail").hasRole("USER")
+                        // requiere autenticacion
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
