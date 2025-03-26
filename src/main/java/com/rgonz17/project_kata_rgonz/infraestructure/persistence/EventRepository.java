@@ -6,6 +6,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 
+import java.util.List;
+
 public interface EventRepository extends MongoRepository<Event, String> {
 
     @Query("{ $and: [ "
@@ -14,4 +16,6 @@ public interface EventRepository extends MongoRepository<Event, String> {
             + "{ 'artist': { $regex: ?2, $options: 'i' } } "
             + "] }")
     Page<Event> findByGenreLocationArtist(String genre, String location,String artist, Pageable pageable);
+
+    List<Event> findBy_idIn(List<String> eventIds);
 }

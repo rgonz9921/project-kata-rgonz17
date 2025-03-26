@@ -7,10 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.logging.Logger;
 
@@ -80,5 +79,10 @@ public class EventServiceImpl implements IEventService {
                 finalLimit,
                 eventPage.getTotalElements()
         );
+    }
+
+    @Override
+    public List<Event> searchEventFindByIdIn(List<String> eventIds) {
+        return eventRepository.findBy_idIn(eventIds);
     }
 }
